@@ -122,7 +122,7 @@
 
 class MFRC522 {
  public:
-  MFRC522(int sad, int reset);
+  MFRC522(int sda, int reset);
   void writeToRegister(byte addr, byte val);
   byte readFromRegister(byte addr);
   void setBitMask(byte addr, byte mask);
@@ -142,5 +142,5 @@ class MFRC522 {
   int haltTag();
 
  private:
-  int _sad, _reset;
+  int _sda, _reset;
 };

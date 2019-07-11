@@ -21,15 +21,15 @@
 
   @brief Instantiates a new MFRC522 class.
 
-  @param sad    SPI chip select pin (CS/SS/SSEL)
+  @param sda    SPI chip select pin (CS/SS/SSEL)
   @param reset  Not reset and power-down pin.
 
  */
 /**************************************************************************/
-MFRC522::MFRC522(int sad, int reset) {
-  _sad = sad;
-  pinMode(_sad, OUTPUT);       // Set digital as OUTPUT to connect it to the RFID /ENABLE pin
-  digitalWrite(_sad, HIGH);
+MFRC522::MFRC522(int sda, int reset) {
+  _sda = sda;
+  pinMode(_sda, OUTPUT);       // Set digital as OUTPUT to connect it to the RFID /ENABLE pin
+  digitalWrite(_sda, HIGH);
 
   _reset = reset;
   pinMode(_reset, OUTPUT);       // Set digital pin, Not Reset and Power-Down
@@ -48,13 +48,13 @@ MFRC522::MFRC522(int sad, int reset) {
  */
 /**************************************************************************/
 void MFRC522::writeToRegister(byte addr, byte val) {
-  digitalWrite(_sad, LOW);
+  digitalWrite(_sda, LOW);
 
   //Address format: 0XXXXXX0
   SPI.transfer((addr<<1)&0x7E);
   SPI.transfer(val);
 
-  digitalWrite(_sad, HIGH);
+  digitalWrite(_sda, HIGH);
 }
 
 /**************************************************************************/
@@ -70,10 +70,10 @@ void MFRC522::writeToRegister(byte addr, byte val) {
 /**************************************************************************/
 byte MFRC522::readFromRegister(byte addr) {
   byte val;
-  digitalWrite(_sad, LOW);
+  digitalWrite(_sda, LOW);
   SPI.transfer(((addr<<1)&0x7E) | 0x80);
   val =SPI.transfer(0x00);
-  digitalWrite(_sad, HIGH);
+  digitalWrite(_sda, HIGH);
   return val;
 }
 
@@ -117,7 +117,7 @@ void MFRC522::clearBitMask(byte addr, byte mask) {
  */
 /**************************************************************************/
 void MFRC522::begin() {
-  digitalWrite(_sad, HIGH);
+  digitalWrite(_sda, HIGH);
 
   reset();
 
